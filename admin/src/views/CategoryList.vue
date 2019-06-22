@@ -32,7 +32,7 @@ export default{
     methods:{
         async fetch(){
             this.loading=true
-            const res = await this.$http.get('/categories')
+            const res = await this.$http.get('/rest/categories')
             this.loading=false
             this.tableData = res.data
         },
@@ -42,7 +42,7 @@ export default{
                 type:'warning',
                 callback:async action=>{
                     if(action=='confirm'){
-                        await this.$http.delete(`/categories/${row._id}`)
+                        await this.$http.delete(`/rest/categories/${row._id}`)
                         this.$message.success('删除成功')
                         this.fetch()
                     }

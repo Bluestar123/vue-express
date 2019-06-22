@@ -47,16 +47,16 @@ export default {
                 return
             }
             this.addloading=true
-            if(this.model.parent===''){
-                delete this.model.parent
-            }
-            let res
+            // if(this.model.parent===''){
+            //     delete this.model.parent
+            // }
+            var res;
             if(this.id){
                 //修改
-                res = await this.$http.put(`/categories/${this.id}`,this.model)
+                res = await this.$http.put(`/rest/categories/${this.id}`,this.model)
             }else{
                 //创建
-                res = await this.$http.post('/categories',this.model)
+                res = await this.$http.post('/rest/categories',this.model)
             }
             
             this.addloading=false
@@ -64,13 +64,18 @@ export default {
             this.$router.push('/categories/list')
         },
         async fetch(){
-            const res = await this.$http.get(`/categories/${this.id}`)
+            const res = await this.$http.get(`/rest/categories/${this.id}`)
 
             this.model = res.data
         },
         async fetchParents(){
-            const res = await this.$http.get('/categories')
-            this.parents = res.data
+            const res = await this.$http.get('/rest/categories')
+            this.parents=[]
+            for(let i of res.data){
+                if(!i.parent){
+                    this.parents.push(i)
+                }
+            }
         }
     }
 }
