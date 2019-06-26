@@ -29,6 +29,33 @@
         <span>收起</span>
       </div>    
     </div>
+
+    <!-- end of nav icons -->
+
+    <m-list-card icon='menu' title='新闻资讯' :categories="newsCats">
+      <!-- slot传参 -->
+      <!-- <template slot='items' slot-scope='scope'>
+        <div class='py-2' v-for="n in scope.category.newsList" :key='n'>
+          <span>[{{n.categoryName}}]</span>
+          <span>|</span>
+          <span>{{n.title}}</span>
+          <span>{{n.date}}</span>
+        </div>
+      </template> -->
+      <template #items="{category}">
+        <div class='py-2' v-for="(n,i) in category.newsList" :key='i'>
+          <span>[{{n.categoryName}}]</span>
+          <span>|</span>
+          <span>{{n.title}}</span>
+          <span>{{n.date}}</span>
+        </div>
+      </template>
+      
+    </m-list-card>
+
+
+    <m-card title='英雄列表' icon='menu'></m-card>
+    
   </div>
 </template>
 
@@ -41,7 +68,45 @@ export default {
           el:'.pagination-home'
         },
         autoplay:true
-      }
+      },
+      newsCats:[
+        {
+          name:'热门',
+          newsList:new Array(5).fill({}).map(v=>({
+              categoryName:'公告',
+              title:'6月2日全服不停机更新公告',
+              date:'06/01'
+          }))
+        },{
+          name:'新闻',
+          newsList:new Array(5).fill({}).map(v=>({
+              categoryName:'公告',
+              title:'6月2日全服不停机更新公告',
+              date:'06/01'
+          }))
+        },{
+          name:'公告',
+          newsList:new Array(5).fill({}).map(v=>({
+              categoryName:'公告',
+              title:'6月2日全服不停机更新公告',
+              date:'06/01'
+          }))
+        },{
+          name:'活动',
+          newsList:new Array(5).fill({}).map(v=>({
+              categoryName:'公告',
+              title:'6月2日全服不停机更新公告',
+              date:'06/01'
+          }))
+        },{
+          name:'赛事',
+          newsList:new Array(5).fill({}).map(v=>({
+              categoryName:'公告',
+              title:'6月2日全服不停机更新公告',
+              date:'06/01'
+          }))
+        },
+      ]
     }
   },
   mounted(){
