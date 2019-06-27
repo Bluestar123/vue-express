@@ -33,4 +33,4 @@ const schema = new mongoose.Schema({//模型字段
     }]
 })
 
-module.exports = mongoose.model('Hero',schema)
+module.exports = mongoose.model('Hero',schema,'heroes')

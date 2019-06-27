@@ -29,7 +29,7 @@ module.exports = app =>{ //传递的app  就是 express 实例的app  直接使�
         
         
         //populate  关联parent对象，不光是 _id，还有name，是parent的整个对象
-        const items = await req.model.find().setOptions(queryOptions).limit(10)
+        const items = await req.model.find().setOptions(queryOptions).limit(100)
 
         res.send(items)
     })

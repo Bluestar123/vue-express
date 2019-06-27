@@ -14,7 +14,7 @@ app.use('/uploads',express.static(__dirname+'/uploads'))
 require('./plugins/db')(app)
 
 require('./routes/admin')(app)
-
+require('./routes/web')(app)
 app.listen(3000,()=>{
     console.log('正在监听3000端口')
 })

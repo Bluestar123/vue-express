@@ -43,24 +43,44 @@
         </div>
       </template> -->
       <template #items="{category}">
-        <div class='py-2' v-for="(n,i) in category.newsList" :key='i'>
-          <span>[{{n.categoryName}}]</span>
-          <span>|</span>
-          <span>{{n.title}}</span>
-          <span>{{n.date}}</span>
-        </div>
+        <router-link 
+        tag='div'
+        :to="{path:`/articles/${n._id}`}" 
+        class='py-2 fs-lg d-flex' 
+        v-for="(n,i) in category.newsList" 
+        :key='i'>
+          <span class='text-info'>[{{n.categoryName}}]</span>
+          <span class='px-2'>|</span>
+          <span class='flex-1 text-dark-1 text-ellipsis pr-2'>{{n.title}}</span>
+          <span class='text-grey-1 fs-sm'>{{n.createdAt | date}}</span>
+        </router-link>
       </template>
       
     </m-list-card>
 
 
-    <m-card title='英雄列表' icon='menu'></m-card>
-    
+    <m-list-card icon='menu' title='英雄列表' :categories="heroCats">
+      <template #items="{category}">
+        <dir class='d-flex flex-wrap' style='margin:0 -0.5rem'>
+          <div class='p-2 text-center' v-for="(hero,i) in category.heroList" :key='i' style='width:20%'>
+            <img :src="hero.avatar" class='w-100' alt="">
+            <div>{{hero.name}}</div>
+          </div>
+        </dir>
+      </template>
+      
+    </m-list-card>    
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
 export default {
+  filters:{
+    date(val){
+      return dayjs(val).format('MM/DD')
+    }
+  },
   data(){
     return {
       swiperOption:{
@@ -70,46 +90,25 @@ export default {
         autoplay:true
       },
       newsCats:[
-        {
-          name:'热门',
-          newsList:new Array(5).fill({}).map(v=>({
-              categoryName:'公告',
-              title:'6月2日全服不停机更新公告',
-              date:'06/01'
-          }))
-        },{
-          name:'新闻',
-          newsList:new Array(5).fill({}).map(v=>({
-              categoryName:'公告',
-              title:'6月2日全服不停机更新公告',
-              date:'06/01'
-          }))
-        },{
-          name:'公告',
-          newsList:new Array(5).fill({}).map(v=>({
-              categoryName:'公告',
-              title:'6月2日全服不停机更新公告',
-              date:'06/01'
-          }))
-        },{
-          name:'活动',
-          newsList:new Array(5).fill({}).map(v=>({
-              categoryName:'公告',
-              title:'6月2日全服不停机更新公告',
-              date:'06/01'
-          }))
-        },{
-          name:'赛事',
-          newsList:new Array(5).fill({}).map(v=>({
-              categoryName:'公告',
-              title:'6月2日全服不停机更新公告',
-              date:'06/01'
-          }))
-        },
-      ]
+        
+      ],
+      heroCats:[]
     }
   },
-  mounted(){
+  methods:{
+    async fetchNewsCats(){
+      const res = await this.$http.get('/news/list')
+
+      this.newsCats = res.data
+    },
+    async fetchHeroCats(){
+      const res = await this.$http.get('/heroes/list')
+      this.heroCats = res.data
+    }
+  },
+  created(){
+    this.fetchNewsCats()
+    this.fetchHeroCats()
   }
 }
 </script>
@@ -139,4 +138,6 @@ export default {
     }
   }
 }
+
+
 </style>
